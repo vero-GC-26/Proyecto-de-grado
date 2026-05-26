@@ -4,7 +4,7 @@ Plataforma interactiva en tiempo real que integra un **Gemelo Digital** termodin
 
 Este repositorio contiene exclusivamente el código fuente de la aplicación web y su respectivo backend de simulación matemática.
 
-## 🚀 Arquitectura del Sistema
+## Arquitectura del Sistema
 
 El sistema opera bajo una arquitectura de tres capas:
 1. **Frontend (Interfaz Web):** Construida con HTML, CSS y JavaScript Vanilla. Muestra gráficas en tiempo real, proyecciones del secado y métricas de impacto económico.
@@ -36,6 +36,7 @@ Para correr la plataforma con toda su capacidad predictiva:
 
 > **Nota para Hosting (Ej. GitHub Pages):** Puedes alojar la interfaz en GitHub Pages para mostrar su diseño públicamente, pero el botón de "Simular" solo funcionará si en la computadora desde donde se ve la página se están ejecutando los pasos 2 y 3.
 
-## 👨‍🔬 Autores y Licencia
+## Autores y Licencia
+Autora: Yanith Veronica Garcia Castro
 Proyecto de Grado - Ingeniería Electrónica.
 Universidad de los Andes.
