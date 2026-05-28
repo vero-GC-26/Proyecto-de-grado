@@ -34,8 +34,6 @@ Para correr la plataforma con toda su capacidad predictiva:
 4. **Abrir la Interfaz:**
    * Abre tu navegador web preferido y entra a: `http://localhost:8080/interfaz/index.html`
 
-> **Nota para Hosting (Ej. GitHub Pages):** Puedes alojar la interfaz en GitHub Pages para mostrar su diseño públicamente, pero el botón de "Simular" solo funcionará si en la computadora desde donde se ve la página se están ejecutando los pasos 2 y 3.
-
 ## Autores y Licencia
 Autora: Yanith Veronica Garcia Castro
 Proyecto de Grado - Ingeniería Electrónica.
