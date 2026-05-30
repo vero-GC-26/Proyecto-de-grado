@@ -813,17 +813,17 @@ body {
         </tr>
         <tr>
           <td style="text-align: left; padding: 6px; font-weight:600">Ingresos (Panela a $4,500/kg)</td>
-          <td style="padding: 6px;">$ 8,775,000</td>
-          <td style="padding: 6px;">$ 8,775,000</td>
+          <td style="padding: 6px;" id="valIngresosNat">$ 8,775,000</td>
+          <td style="padding: 6px;" id="valIngresosMPC">$ 8,775,000</td>
         </tr>
         <tr>
           <td style="text-align: left; padding: 6px; font-weight:600">Mano de Obra</td>
-          <td style="padding: 6px; color:#c62828">- $ 2,575,000</td>
-          <td style="padding: 6px; color:#c62828">- $ 2,575,000</td>
+          <td style="padding: 6px; color:#c62828" id="valManoNat">- $ 2,575,000</td>
+          <td style="padding: 6px; color:#c62828" id="valManoMPC">- $ 2,575,000</td>
         </tr>
         <tr>
           <td style="text-align: left; padding: 6px; font-weight:600">Gasto en Leña</td>
-          <td style="padding: 6px; color:#c62828">- $ 200,000</td>
+          <td style="padding: 6px; color:#c62828" id="valLenaNat">- $ 200,000</td>
           <td style="padding: 6px; color:var(--accent-cane)">$ 0</td>
         </tr>
         <tr style="border-bottom: 2px solid var(--text-dim);">
@@ -833,7 +833,7 @@ body {
         </tr>
         <tr style="font-size: 16px; font-weight: 800;">
           <td style="text-align: left; padding: 8px;">GANANCIA NETA</td>
-          <td style="padding: 8px; color:var(--text)">$ 6,000,000</td>
+          <td style="padding: 8px; color:var(--text)" id="gananciaNat">$ 6,000,000</td>
           <td style="padding: 8px; color:var(--accent-cane)" id="gananciaMPC">$ --</td>
         </tr>
       </table>
@@ -1326,20 +1326,29 @@ function pintarResultados(d) {
 
     let fmt = n => '$ ' + Math.round(n).toLocaleString('es-CO');
     
-    // Costo ventilador industrial (factor industrial x energía piloto)
-    // El ventilador piloto era de 100W, para 1800kg usaríamos aprox 2.25 kW (3 HP).
-    // Factor = 1800kg / 80kg = 22.5. 
-    let factor_escala = 22.5; 
-    let energia_ind_kWh = d.mpc.energia_kWh * factor_escala;
-    let costo_luz_ind = energia_ind_kWh * 947.34;
+    // Leer la panela producida (del modelo o de la UI) y extrapolar linealmente
+    let panela_kg = (d.config && d.config.panela_kg) ? d.config.panela_kg : (parseFloat(document.getElementById('cfgPanela').value) || 1950);
+    let ratio_escala = panela_kg / 1950;
+    
+    let ingresos = 8775000 * ratio_escala;
+    let mano_obra = 2575000 * ratio_escala;
+    let gasto_lena = 200000 * ratio_escala;
+    let costo_luz_ind = d.hugot.costo_ventilador_COP;
+    
+    // Actualizar celdas del P&G
+    document.getElementById('valIngresosNat').textContent = fmt(ingresos);
+    document.getElementById('valIngresosMPC').textContent = fmt(ingresos);
+    document.getElementById('valManoNat').textContent = '- ' + fmt(mano_obra);
+    document.getElementById('valManoMPC').textContent = '- ' + fmt(mano_obra);
+    document.getElementById('valLenaNat').textContent = '- ' + fmt(gasto_lena);
     
     document.getElementById('costoVentiladorInd').textContent = '- ' + fmt(costo_luz_ind);
     
-    // Ganancia Neta MPC
-    let ingresos = 8775000;
-    let mano_obra = 2575000;
+    // Ganancia Neta
+    let ganancia_nat = ingresos - mano_obra - gasto_lena;
     let ganancia_mpc = ingresos - mano_obra - costo_luz_ind;
     
+    document.getElementById('gananciaNat').textContent = fmt(ganancia_nat);
     document.getElementById('gananciaMPC').textContent = fmt(ganancia_mpc);
 
     addLog(`💰 P&G: Costo Elec Ind: ${fmt(costo_luz_ind)} | Ganancia Neta: ${fmt(ganancia_mpc)} COP`);
